@@ -1,5 +1,5 @@
 # Ex.05 Design a Website for Server Side Processing
-## Date:
+## Date:28.04.2025
 
 ## AIM:
  To design a website to calculate the power of a lamp filament in an incandescent bulb in the server side. 
@@ -33,12 +33,124 @@ Publish the website in the given URL.
 
 ## PROGRAM :
 
+### math.html:
+
+```
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        body {
+            background-color: #2d2d2d;
+            font-family: 'Poppins', sans-serif;
+            padding: 40px;
+            margin: 0;
+        }
+        .Calculate {
+            width: 30%;
+            padding: 25px;
+            margin: auto;
+            background-color: #3b3b3b;
+            text-align: center;
+            border-radius: 15px;
+        }
+        label {
+            font-size: 20px;
+            color: #ffffff;
+            display: block;
+            margin-top: 10px;
+            text-align: left;
+        }
+        p {
+            font-size: 20px;
+            font-weight: bold;
+            color: #ffffff;
+            margin-top: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #ffffff; 
+            margin-bottom: 30px;
+        }
+        input, button {
+            padding: 12px;
+            margin: 10px 0;
+            width: 90%;
+            border: 1px solid #555;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        input {
+            background-color: #4f4f4f;
+            color: #ffffff; 
+        }
+        button {
+            background-color: #616161; 
+            color: #ffffff; 
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #757575;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    <h1>Calculating Power of a Lamp</h1>
+    <div class="Calculate">
+        <form action="{% url 'home' %}" method="post">
+            {% csrf_token %}
+            <label>Intensity:</label><br>
+            <input type="text" name="intensity-input"><br>
+
+            <label>Resistance:</label><br>
+            <input type="text" name="resistance-input"><br>
+
+            <button type="submit">Calculate</button>
+
+            <p>The power of the lamp is: {{ output }}</p>
+        </form>
+    </div>
+</body>
+</html>
+```
+
+### views.py:
+
+```
+from django.shortcuts import render
+
+def power(request):
+    if request.method == 'POST':
+        intensity_value = int(request.POST.get('intensity-input'))
+        resistance_value = int(request.POST.get('resistance-input'))
+        power = (intensity_value ** 2) * resistance_value
+        return render(request, 'mathapp/math.html', {'output': power})
+    return render(request, 'mathapp/math.html')
+```
+
+### urls.py:
+
+```
+from django.contrib import admin
+from django.urls import path
+from mathapp import views
+
+urlpatterns = [
+    path('', views.power, name='home')
+]
+```
 
 ## SERVER SIDE PROCESSING:
 
+![alt text](<Screenshot (425).png>)
 
 ## HOMEPAGE:
 
+![alt text](<Screenshot (426).png>)
 
 ## RESULT:
 The program for performing server side processing is completed successfully.
